@@ -10,15 +10,17 @@
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://affiliatioprograms.online/">
 
-<!-- Fonts loaded asynchronously to prevent render blocking -->
+<!-- Preconnect & Font Preload for LCP -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="https://fonts.gstatic.com/s/inter/v13/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="https://fonts.gstatic.com/s/sora/v11/xMQOuFFYT72X5wkB_18qmnndmSdSnk-DKQ.woff2" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap"></noscript>
 
 <style>
 /* ==========================================================================
-   CUSTOM CSS & COMPILED TAILWIND CLASSES (No CDN needed)
+   CUSTOM CSS & COMPILED TAILWIND (Zero JS Blocking)
    ========================================================================== */
 :root{
   --bg-0:#050a12;
@@ -293,10 +295,16 @@ section[id], div[id].anchor{scroll-margin-top:92px}
 .faq details[open] summary::after{transform:rotate(-135deg);margin-top:4px}
 .faq .answer{padding:0 18px 18px;color:#b9c8db;font-size:.905rem;max-width:88ch}
 .faq .answer strong{color:#fff}
+
+/* ✅ LCP & Reflow Fixes */
 .reveal{opacity:0;transform:translateY(16px);animation:rise .55s cubic-bezier(.2,.8,.2,1) forwards;will-change:opacity, transform;}
 @keyframes rise{to{opacity:1;transform:none}}
-.pulse-dot{width:8px;height:8px;border-radius:50%;background:var(--brand-2);box-shadow:0 0 0 0 rgba(52,211,153,.7);animation:pulse 2.4s infinite;}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(52,211,153,.6)}70%{box-shadow:0 0 0 11px rgba(52,211,153,0)}100%{box-shadow:0 0 0 0 rgba(52,211,153,0)}}
+
+/* Static dot instead of animated dot to prevent layout shifts */
+.pulse-dot{
+  width:8px;height:8px;border-radius:50%;background:var(--brand-2);
+  box-shadow: 0 0 8px rgba(52,211,153,0.8);
+}
 .is-hidden{display:none !important}
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto} *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}
@@ -370,7 +378,8 @@ section[id], div[id].anchor{scroll-margin-top:92px}
     <div class="grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,.85fr)] gap-10 lg:gap-14 items-center">
       <div>
         <p class="eyebrow mb-4">Independently verified · Updated 2026</p>
-        <h1 id="heroTitle" class="font-display text-[2rem] leading-[1.1] sm:text-[2.6rem] lg:text-[3.15rem] font-extrabold text-white">
+        <!-- ✅ FIX: Removed font-display from H1 for faster LCP -->
+        <h1 id="heroTitle" class="text-[2rem] leading-[1.1] sm:text-[2.6rem] lg:text-[3.15rem] font-extrabold text-white">
           Compare the best<br class="hidden sm:block">
           <span class="text-emerald-400">platforms</span> of 2026
         </h1>
@@ -388,7 +397,8 @@ section[id], div[id].anchor{scroll-margin-top:92px}
           <strong class="text-slate-400">Affiliate disclosure:</strong> AffiliatePrograms may earn a commission when you sign up through an outbound link.
         </p>
       </div>
-      <aside class="glass card-pad reveal" aria-labelledby="topPickHeading" style="animation-delay:.12s">
+      <!-- ✅ FIX: Removed reveal and animation-delay to load card instantly -->
+      <aside class="glass card-pad" aria-labelledby="topPickHeading">
         <div class="flex items-center justify-between gap-3 mb-4">
           <span class="pill pill-gold">
             <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.9-5 4.8 1.2 6.8L12 17.6 6 20.8l1.2-6.8-5-4.8 6.9-.9z"/></svg>
@@ -446,6 +456,7 @@ section[id], div[id].anchor{scroll-margin-top:92px}
           Clear category
         </button>
       </div>
+      <!-- ✅ ARIA FIX: Removed role="listitem" from buttons -->
       <div class="cat-cloud" aria-label="Product categories">
         <button type="button" class="cat-pill" data-category="all" aria-pressed="true"><span class="cat-dot" aria-hidden="true"></span>All categories<span class="cat-count" data-count="all">0</span></button>
         <button type="button" class="cat-pill" data-category="tech-saas-ai" aria-pressed="false"><span class="cat-dot" aria-hidden="true"></span>Technology, SaaS &amp; AI Tools<span class="cat-count" data-count="tech-saas-ai">0</span></button>
@@ -629,7 +640,6 @@ section[id], div[id].anchor{scroll-margin-top:92px}
       <nav aria-labelledby="footLegal">
         <h2 id="footLegal" class="text-[0.68rem] uppercase tracking-[0.14em] font-extrabold text-slate-400 mb-4">Legal</h2>
         <ul class="space-y-1 list-none p-0 m-0">
-          <!-- Agar aap alag page banayein to href="privacy.html" kar dein -->
           <li><a class="block py-2 text-[0.86rem] text-slate-300 hover:text-emerald-300 no-underline" href="#legal" data-modal="privacy">Privacy Policy</a></li>
           <li><a class="block py-2 text-[0.86rem] text-slate-300 hover:text-emerald-300 no-underline" href="#legal" data-modal="terms">Terms of Use</a></li>
           <li><a class="block py-2 text-[0.86rem] text-slate-300 hover:text-emerald-300 no-underline" href="#legal" data-modal="risk">Disclaimer</a></li>
@@ -668,9 +678,6 @@ section[id], div[id].anchor{scroll-margin-top:92px}
 (function () {
   'use strict';
 
-  // ═══════════════════════════════════════════════════════════════════
-  // 🎯 POSTS YAHAN ADD KAREIN (Data 100% safe hai)
-  // ═══════════════════════════════════════════════════════════════════
   const MY_POSTS = [
     {
       id: 'gohighlevel-llc',
